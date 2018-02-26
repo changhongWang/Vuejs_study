@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性与侦听属性比较</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+<div id="vm">
+    <p>firstName: {{firstName}}</p>
+    <p>firstName: {{lastName}}</p>
+    <p>fullName: {{fullName}}</p>
+</div>
+
+<div id="vm2">
+    <p>firstName: {{firstName}}</p>
+    <p>firstName: {{lastName}}</p>
+    <p>fullName: {{fullName}}</p>
+</div>
+<script>
+
+    /**
+     * Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据变动：侦听属性。
+     * 当你有一些数据需要随着其它数据变动而变动时，你很容易滥用 watch——特别是如果你之前使用过 AngularJS。
+     * 然而，通常更好的做法是使用计算属性而不是命令式的 watch 回调。
+     */
+    //使用watch的方式，观测firstName和lastName变量，动态改变fullName的值
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+            firstName: 'Foo',
+            lastName: 'Bar',
+            fullName: 'Foo Bar'
+        },
+        watch: {
+            firstName: function(val){
+                this.fullName = val + ' ' + this.lastName;
+            },
+            lastName: function(val){
+                this.fullName = this.firstName + ' ' + val;
+            }
+        }
+    });
+    //computed 计算属性
+    var vm2 = new Vue({
+        el: '#vm2',
+        data: {
+            firstName: 'Foo',
+            lastName: 'Bar'
+        },
+        computed: {
+            fullName: function (){
+                return this.firstName + ' ' + this.lastName;
+            }
+        }
+    })
+
+
+</script>
+
+</body>
+</html>
