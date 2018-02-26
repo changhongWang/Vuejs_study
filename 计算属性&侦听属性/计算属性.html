@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <span>Original Message：</span><input type="text" v-model="message">
+    <p>Computed Reversed Message： {{reversedMessage}}</p>
+</div>
+<div id="app2">
+
+</div>
+<script>
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello'
+        },
+        computed: {
+            reversedMessage: function(){
+                return this.message.split('').reverse().join('');
+            }
+        }
+    })
+
+    var vm2 = new Vue({
+        el: '#app2',
+        data: {
+            firstName: 'Foo',
+            lastName: 'Bar'
+        },
+        computed: {
+            //计算属性默认只有getter，**但是在需要时**也可以提供一个setter
+            fullName: {
+                //getter
+                get: function(){
+                    return this.firstName + '  ' +  this.lastName;
+                },
+                //setter
+                set: function(newValue){
+                    var names = newValue.split(' ');
+                    this.firstName = names[0];
+                    this.lastName = names[names.length - 1];
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
