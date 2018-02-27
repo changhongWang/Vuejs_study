@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>title</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+<div id="vm">
+    <!--直接绑定-->
+    <div :style="{ color: activeColor, fontSize: fontSize + 'px' }">116</div>
+    <p :style="styleObject">123</p>
+</div>
+<div id="vm2">
+    <div :style="[fontStyle, colorStyle]">qweqweqwe</div>
+
+</div>
+<script>
+    //对象语法
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+            styleObject: {
+                color: '#f00'
+            },
+            activeColor: 'blue',
+            fontSize: 35
+        }
+    })
+
+    //数组语法
+    var vm2 = new Vue({
+        el: '#vm2',
+        data: {
+            colorStyle:{
+                color: '#f00'
+            },
+            fontStyle: {
+                fontSize: '24px'
+
+            }
+        }
+    })
+
+    //自动添加前缀
+    //当 v-bind:style 使用需要添加浏览器引擎前缀的 CSS 属性时，如 transform，Vue.js 会自动侦测并添加相应的前缀。
+
+    //多重值
+    //可以在style的绑定中提供一个包含多个值的数组， **常用于**提供多个带前缀的值
+    // e.g  <div :style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }"></div>
+    //只会渲染数组中最后一个被浏览器支持的值
+    //在例子中，如果浏览器不支持带前缀的flexbox，就只会渲染display: flex
+
+</script>
+</body>
+</html>

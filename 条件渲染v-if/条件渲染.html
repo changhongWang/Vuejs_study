@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>条件渲染</title>
+    <script src="../lib/vue.js"></script>
+    <style>
+        .text-danger {
+            color: orangered;
+        }
+
+        .text-pass {
+            color: greenyellow;
+        }
+    </style>
+</head>
+<body>
+<div id="vm">
+
+    <div style="border:1px solid #999;border-radius:5px;display: inline-block;padding: 20px 10px;">
+        <template v-if="ifLogin">
+            <p>欢迎您，{{username}}</p>
+            <p style="text-align: center;font-size:10px;color: cornflowerblue;cursor:pointer;" @click="logout">注销用户</p>
+        </template>
+        <!--未登录-->
+        <template v-else>
+            <table>
+                <tr>
+                    <th><label for="username">用户名:</label></th>
+                    <td>
+                        <input type="text" v-model="username" id="username">
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="password">密码:</label></th>
+                    <td>
+                        <input type="password" v-model="password" id="password">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center">
+                        <button @click="login">登录</button>
+                    </td>
+                </tr>
+            </table>
+        </template>
+    </div>
+    <div v-if="ifLogin">
+        <h1 v-if="ifPassed" class="text-pass">通过 PASS</h1>
+        <h1 v-else class="text-danger">不通过 NOT PASS</h1>
+        <h2>成绩等级：
+            <span v-if="score >= 80">A</span>
+            <span v-else-if="score >= 70">B</span>
+            <span v-else-if="score >= 60">C</span>
+            <span v-else class="text-danger">FAILED</span>
+        </h2>
+    </div>
+
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+            ok: true,
+            score: 80,
+            username: '',
+            password: '',
+            ifLogin: false
+        },
+        methods: {
+            login: function () {
+                if (this.username == '' || this.username == undefined) {
+                    this.ifLogin = false;
+                    console.log('error1')
+                } else if (this.password == '' || this.password == undefined) {
+                    this.ifLogin = false;
+                    console.log('error2')
+                } else {
+                    this.ifLogin = true;
+                }
+            },
+            logout: function () {
+                this.username = '';
+                this.password = '';
+                this.ifLogin = false;
+            }
+        },
+        computed: {
+            ifPassed: function () {
+                if (this.score >= 60) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
