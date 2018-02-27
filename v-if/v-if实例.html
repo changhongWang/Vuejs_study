@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-if实例</title>
+    <script src="../lib/vue.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        #login_window{
+            width: 300px;
+            height: 400px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background: #ffffff;
+            box-shadow: 0 0 20px #ddd;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0;
+        }
+        .choose-area{
+            list-style: none;
+            overflow: hidden;
+            clear: both;
+            padding: 0;
+            margin: 0;
+            border-radius: 10px 10px 0 0;
+            cursor: pointer;
+        }
+        .choose-area li{
+            float: left;
+            width: 50%;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
+            border-bottom: 1px solid #ddd;
+        }
+        .choose-area .active{
+            background: #80dfff;
+            color: #fff;
+        }
+        .main{
+            width: 100%;
+            height: calc(100% - 40px);
+            border-radius: 0 0 10px 10px;
+            position: relative;
+        }
+        .main table{
+            font-size: 12px;
+            color: #888;
+            margin: 0 auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .main table tr{
+            height: 30px;
+            line-height: 30px;
+        }
+        .main table th{
+            text-align: right;
+        }
+        .main button{
+            width: 60px;
+            height: 30px;
+            line-height: 30px;
+            background: #00a8eb;
+            border-radius: 3px;
+            outline: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div id="vm">
+    <div id="login_window">
+        <ul class="choose-area">
+            <li @click="changeToLogin" :class="{active: isLogin}">登录</li>
+            <li @click="changeToRegister" :class="{active: isRegister}">注册</li>
+        </ul>
+        <div class="main">
+            <template v-if="isLogin">
+                <table>
+                    <tr>
+                        <th>用户名:</th>
+                        <td><input type="text" v-model="username"></td>
+                    </tr>
+                    <tr>
+                        <th>密码:</th>
+                        <td><input type="password" v-model="password"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <button>登录</button>
+                        </td>
+                    </tr>
+                </table>
+            </template>
+
+            <template v-if="isRegister">
+                <table>
+                    <tr>
+                        <th>注册类型:</th>
+                        <td>
+                            <select name="registerType" id="registerType" v-model="registerType">
+                                <option value="">请选择</option>
+                                <option value="email">Email</option>
+                                <option value="mobile">手机号码</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>用户名:</th>
+                        <td><input type="text" v-model="username"></td>
+                    </tr>
+                    <tr>
+                        <th>密码:</th>
+                        <td><input type="password" v-model="password"></td>
+                    </tr>
+                    <tr>
+                        <th>确认:</th>
+                        <td><input type="password" v-model="confirmPassword"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <button>登录</button>
+                        </td>
+                    </tr>
+                </table>
+            </template>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+            isLogin: true,
+            isRegister: false,
+
+            'registerType': '',
+            username: '',
+            password: '',
+            'confirmPassword': ''
+
+        },
+        methods:{
+            changeToLogin: function(){
+                this.isLogin = true;
+                this.isRegister = false;
+            },
+            changeToRegister: function () {
+                this.isLogin = false;
+                this.isRegister = true;
+            }
+        }
+    })
+</script>
+</body>
+</html>
