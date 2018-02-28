@@ -9,11 +9,11 @@
 <div id="vm">
 
     <ol>
-        <li v-for="flight in flights">{{flight.num}}</li>
+        <li v-for="flight in flights" :key="flight.id">{{flight.num}}</li>
     </ol>
 
     <ul>
-        <li v-for="(flight, index) in flights">{{index+1}}. {{flight.num}}</li>
+        <li v-for="(flight, index) in flights" :key="flight.id">{{index+1}}. {{flight.num}}</li>
     </ul>
 </div>
 
@@ -26,9 +26,9 @@
     var vm = new Vue({
         el: '#vm',
         data: {
-           flights: [{num: 'NH956'}, {num: 'CA103'}]
+           flights: [{num: 'NH956', id: '1e8ca'}, {num: 'CA103', id: '2xsa5'}]
         }
-    })
+    });
     //在 v-for 块中拥有对父作用域属性的完全访问权限。
     //v-for中可以额外传第二个参数 - index
     //也可以用of 代替 in 作为分隔符， of是最接近js迭代器的语法
@@ -50,19 +50,49 @@
                 age: 30
             }
         }
-    })
+    });
 
     /**
-     * Vue包含一组数组的变异方法，push(), pop(), shift(), unshift(), splice(), sort(), reverse()
-     *
-     * 变异方法 (mutation method)，即会 改变 被 这些方法 调用 的 原始数组。
-     * 非变异方法不会改变原始数组，但 总是 会返回一个新数组，例如：filter(), concat() 和 slice() 。
-     *
-     * 当使用非变异方法时，可以用新数组替换旧数组。
-     * 你可能认为这将导致 Vue 丢弃现有 DOM 并重新渲染整个列表。
-     * 幸运的是，事实并非如此。Vue 为了使得 DOM 元素得到最大范围的重用而实现了一些智能的、启发式的方法，
-     * 所以用一个含有相同元素的数组去替换原来的数组是非常高效的操作。
+     * 变异方法：会改变原始数组，例如:push(), pop(), shift(), unshift(), splice(), sort(), reverse()
+     * 非变异方法：不会改变原始数组，但总是会返回一个新数组，例如：filter(), concat() 和 slice() 。
      */
+    //在使用非变异方法的时候，可以用新数组代替旧数组，这并不会在性能方面存在问题，是一个高效操作，Vue不会丢弃现有DOM再重新渲染。
+
+    /**
+     * 由于js限制， Vue不能检测两种数组操作，也不能检测对象属性的添加或删除
+     * 1. 当你利用索引直接设置一个项时，例如：vm.items[indexOfItem] = newValue
+     * 2. 当你修改数组的长度时，例如：vm.items.length = newLength
+     *
+     * **对于已经创建的实例，Vue 不能动态添加 根级别 的响应式属性。e.g vm.b = 2 不可以动态添加，不会响应
+     * 但是，可以使用 Vue.set(object, key, value) 方法向  嵌套对象  添加响应式属性。
+     * 即，只可以向data中已经存在的对象添加响应式属性
+     */
+    // e.g:数组操作1
+    vm.flights[0] = {num: 'CZ6325', id: '12123'};
+    // e.g:数组操作2
+    vm.flights.splice(1);
+
+    //e.g 对象更改  向vm2.person中添加性别属性(两种方式都可以,vm.$set是Vue.set的别名)
+    //Vue.set(vm2.person, "gender", "男")
+    vm2.$set(vm2.person, "gender", "男");
+
+    //e.g. 需要同时赋予对象多个属性的时候
+    vm2.person = Object.assign({}, vm2.person, {
+        fullName: 'changhong Wang',
+        job: 'Web Developer'
+    });
+
+
+
+
+
+
+
+
+
+
+
+
 
 </script>
 </body>
