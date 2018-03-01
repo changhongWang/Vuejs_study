@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全局注册与局部注册</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+
+<div id="vm">
+    <my-component></my-component>
+
+    <!--
+    ul、ol、table、select等元素内部包含的标签是有要求的，此时如果放入组件不会被识别
+    可以变通的使用is
+
+    但使用如下来源的模板字符串，则没有限制
+    1. <script type="text/x-template"></script>
+    2. Javascript内联模板字符串
+    3. .vue组件
+
+    因此，应该尽量使用字符串模板
+    -->
+    <table>
+        <!--
+
+        <table-component></table-component>
+        会渲染错误,table-component不在table中
+
+        -->
+
+        <tr is="table-component"></tr>
+        <tr>
+            <td>456</td>
+        </tr>
+    </table>
+    <func-test-component></func-test-component>
+    <func-test-component></func-test-component>
+
+</div>
+
+
+<script>
+    //注script>
+    Vue.component('my-component', {
+        template: '<div>我的全局组件</div>'
+    });
+    //局部的
+    var Child = {
+        template: '<div>我的局部组件</div>'
+    };
+
+    /**
+     * 组件中，data必须是函数
+     */
+    Vue.component('func-test-component', {
+        template: '<button v-on:click="counter += 1">{{ counter }}</button>',
+        /*data: {
+            message: 'hello'//Vue 会报错
+            //The "data" option should be a function that returns a per-instance value in component definitions.
+        }*/
+        data: function(){
+            return {
+                counter: 0
+            }
+        }
+    })
+    var vm = new Vue({
+        el: '#vm',
+        components: {
+            //局部组件放在components里
+
+            //局部组件会覆盖全局组件
+            'my-component': Child,
+            'table-component': {
+                template: '<tr><td>123</td></tr>'
+            }
+        }
+    })
+
+    /**
+     * 在 Vue 中，父子组件的关系可以总结为 prop 向下传递，事件向上传递。
+     * 父组件通过 prop 给子组件下发数据，子组件通过事件给父组件发送消息。
+     */
+</script>
+
+</body>
+</html>
