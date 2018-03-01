@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件处理</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+<div id="vm">
+    <input type="button" value="Add 1" @click="counter += 1">
+    <p>The button above has been clicked {{ counter }} times</p>
+
+    <!--
+        事件修饰符： .stop 停止传播 / .prevent 阻止默认行为 / .capture 事件捕获 / .self 仅当元素自身触发时 / .once 只触发一次
+    -->
+
+    <input @keyup.enter.exact="submit" @click.prevent.middle="alert1" type="button" value="按钮">
+    <br><br>
+    <input @keyup.alt.67="clear" type="button" value="按钮">
+    <!--
+        keyCode是13时调用submit
+        Vue为常用的按键提供了别名
+        .enter .tab .delete .esc .space .up .down .left .right
+        2.1版本新增修饰符 .ctrl .alt .meta .shift (.meta 是Mac上的command键 或 windows微标键)
+        还可以通过全局config.keyCodes 对象自定义按键修饰符别名
+        @keyup.enter="xxx"
+
+        自定义按键修饰符别名：
+        Vue.config.keyCodes.f1=112
+
+        2.5版本新增.exact修饰符，只有当按下该按键才会触发
+        2.2版本新增鼠标按键修饰符 .left .right .middle
+
+        请注意修饰键与常规按键不同，在和 keyup 事件一起用时，事件触发时修饰键必须处于按下状态。
+        换句话说，只有在按住 ctrl 的情况下释放其它按键，才能触发 keyup.ctrl。而单单释放 ctrl 也不会触发事件。
+    -->
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+            counter:0
+        },
+        methods: {
+            submit: function(){
+                alert('submit has been keyDown')
+            },
+            alert1: function(){
+                alert(123)
+            },
+            clear: function(){
+                alert('clear')
+            }
+        }
+    })
+
+    //v-on 可以接收一个需要调用的方法名称。
+
+
+</script>
+</body>
+</html>

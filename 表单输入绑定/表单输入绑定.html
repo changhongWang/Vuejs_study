@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单输入绑定</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+<div id="vm">
+    <p><input type="text" v-model="inputText" placeholder="edit Me"></p>
+    <p>文本：{{inputText}}</p>
+
+    <p><textarea v-model="textareaText" placeholder="add multiple lines"></textarea></p>
+    <p>文本：{{textareaText}}</p>
+
+    <h5>复选框</h5>
+    <p>
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{checked}}</label>
+    </p>
+
+    <h5>多个复选框绑定到一个数组</h5>
+    <p>
+        <!--用value区分   value和v-model  -->
+        <input type="checkbox" id="Jack" value="Jack" v-model="checkedNames">
+        <label for="Jack">Jack</label>
+        <input type="checkbox" id="John" value="John" v-model="checkedNames">
+        <label for="John">John</label>
+        <input type="checkbox" id="Mike" value="Mike" v-model="checkedNames">
+        <label for="Mike">Mike</label>
+    </p>
+    <p>
+        <span>Checked Names:</span>
+        <span>{{checkedNames}}</span>
+    </p>
+
+    <h5>单选按钮</h5>
+    <p>
+        <input type="radio" id="One" value="One" v-model="radioButton">
+        <label for="One">One</label>
+        <input type="radio" id="Two" value="Two" v-model="radioButton">
+        <label for="Two">Two</label>
+    </p>
+    <p>Picked: {{radioButton}}</p>
+
+    <h5>选择框</h5>
+    <p>
+        <select v-model="singleSelect">
+            <option disabled value="">请选择</option>
+            <!--
+                如果 v-model 表达式的初始值未能匹配任何选项，<select> 元素将被渲染为“未选中”状态。
+                在 iOS 中，这会使用户无法选择第一个选项。因为这样的情况下，iOS 不会触发 change 事件。
+                因此，更推荐像上面这样提供一个值为空的禁用选项。
+            -->
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+    </p>
+    <p>
+        selected: {{singleSelect}}
+    </p>
+
+    <h5>多选选择框</h5>
+    <p>
+        <select v-model="selected" multiple style="width: 50px;">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+    </p>
+    <p>
+        selected: {{selected}}
+    </p>
+
+    <h5>vue渲染的动态select</h5>
+    <p>
+        <select v-model="vue_select">
+            <option disabled value="">请选择</option>
+            <option v-for="select in selects" :value="select.value">{{select.item}}</option>
+        </select>
+        selected: {{vue_select}}
+    </p>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+
+            /**
+             *  v-model 会忽略所有表单元素的 value、checked、selected 特性的初始值而总是将 Vue 实例的数据作为数据来源。
+             *  你应该通过 JavaScript 在组件的 data 选项中声明初始值。
+             */
+            inputText: '',
+            textareaText: '',
+            checked: false,
+            checkedNames: [],
+            radioButton: '',
+            singleSelect: '',
+            selected: [],
+            selects: [
+                {value: 'A', item: 'One'},
+                {value: 'B', item: 'Two'},
+                {value: 'C', item: 'Three'}
+            ],
+            vue_select: []
+        }
+    })
+
+</script>
+</body>
+</html>

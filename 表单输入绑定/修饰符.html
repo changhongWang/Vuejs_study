@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修饰符</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+<div id="vm">
+<!--
+    .lazy 默认情况，v-model在每次input触发都会进行同步，可以添加.lazy，转变为使用change事件进行同步
+    .number 自动将用户输入值转为number, 注意设置type=number
+    .trim 去除空格
+-->
+
+    <input v-model.lazy="msg" >
+    <p>信息：{{msg}}</p>
+
+    <input v-model.number="age" type="number">
+    <p>年龄：{{age}}</p>
+
+    <input v-model.trim="address" type="text">
+    <p>地址(去空格)：{{address}}</p>
+
+    <!--
+    除了HTML自带的输入类型之外，你还可以在Vue中自定义输入组件
+    -->
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+            msg: '',
+            age: '',
+            address: ''
+        }
+    })
+
+</script>
+</body>
+</html>

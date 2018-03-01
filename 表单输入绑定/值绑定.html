@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>值绑定</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+<div id="vm">
+    <!--
+        对于单选按钮，复选框及选择框的选项，v-model 绑定的值通常是静态字符串 (对于复选框也可以是布尔值)
+        但是有时我们可能想把值绑定到 Vue 实例的一个动态属性上，这时可以用 v-bind 实现，并且这个属性的值可以不是字符串。
+    -->
+
+    <!--复选框-->
+    <input type="checkbox" id="toggle" v-model="toggle" true-value="yes" false-value="no">
+    <label for="toggle">{{toggle}}</label>
+    <!--
+    这里的 true-value 和 false-value 特性并不会影响输入控件的 value 特性，因为浏览器在提交表单时并不会包含未被选中的复选框。
+    如果要确保表单中这两个值中的一个能够被提交，(比如“yes”或“no”)，请换用单选按钮。
+    -->
+
+    <!--单选框-->
+    <input type="radio" v-model="pick" :value="a">
+
+    <!--select框-->
+    <select v-model="selected">
+        <!-- 内联对象字面量 -->
+        <option :value="{ number: 123 }">123</option>
+    </select>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+            toggle: 'yes',
+            a: '123',
+            pick: '',
+            selected: ''
+        }
+    })
+
+</script>
+</body>
+</html>
