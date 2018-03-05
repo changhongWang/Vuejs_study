@@ -3,8 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <title>Prop</title>
+    <script src="../lib/vue.js"></script>
 </head>
 <body>
+<!--
+    动态prop：
+    与绑定到任何普通的 HTML 特性相类似，我们可以用 v-bind 来动态地将 prop 绑定到父组件的数据。
+    每当父组件的数据变化时，该变化也会传导给子组件。
 
+    还可以直接绑定一个对象
+    v-bind='todo'， 此处等价于v-bind:text="todo.text" v-bind:isComplete="isComplete"
+
+    Prop 是单项绑定的，方向只能由父组件到子组件。即当父组件的属性发生变化时，传导给子组件，反过来不会
+    这是为了防止子组件无意间修改了父组件的状态，来避免应用的数据流变得难以理解
+
+    另外，当父组件更新时，子组件所有的prop都会更新为最新值。所以，不应该在子组件内部改变prop，若改变Vue会在console给出警告
+-->
+<!--
+    注意，只有使用v-bind:text="a" 绑定的才是真正的JavaScript数值(表达式)，而使用some-prop="1"传递的只是字符串1
+-->
+<!--
+    两种容易想要修改prop中数据的情况：
+    1. Prop 作为初始值传入后，子组件想把它当作局部数据来用；
+    2. Prop 作为原始数据传入，由子组件处理成其它数据输出。
+
+    对应处理方法：
+    1. 定义一个局部变量，并用prop的值初始化
+    2. 定义一个计算属性，处理 prop 的值并返回
+
+-->
+<div id="vm">
+    <input type="text" v-model="dynamicProp">
+    <input type="text" v-model="size">
+    <child message="hello,子组件" my-message="不区分大小写的HTML属性" v-bind:dynamic-prop="dynamicProp" v-bind="todo"
+           :size="size" :array-test="arrayTest"></child>
+    <div>{{arrayTest}}</div>
+</div>
+
+<script>
+    //子组件需要用props显式声明它预期的数据
+    Vue.component('child', {
+        //声明props(此处message)
+        props: ['message', 'myMessage', 'dynamicProp', 'text', 'isComplete', 'size', 'arrayTest'],
+        //props可以在模板中使用，也可以在 vm 实例中通过 this.message 来使用
+        //HTML中不区分大小写，所以驼峰命名的props在HTML中需要变为短线
+        template: '<div>子组件接收到的数据message: {{message}}<br>myMessage: {{myMessage}}<br>dynamicProp:{{dynamicProp}}' +
+        '<br>{{text}} <br>{{isComplete}}' +
+        '<br>message: {{message}} <br>message1: {{message1}}' +
+        '<br>size: {{size}} <br>normalizedSize: {{normalizedSize}}' +
+        '<br>子组件arrayTest2: {{arrayTest2}}' +
+        '</div>',
+        data: function(){
+            return {
+                /**
+                 *  1. Prop 作为初始值传入后，子组件想把它当作局部数据来用；
+                 *  处理方法：
+                 *  定义一个局部变量，并用prop的值初始化
+                 *
+                 */
+
+                message1: this.message,
+                //如果prop是一个对象或数组，在子组件内部改变它会影响父组件的状态。
+                arrayTest1: this.arrayTest
+            }
+        },
+        computed: {
+            /**
+             * 2. Prop 作为原始数据传入，由子组件处理成其它数据输出。
+             * 处理方法：
+             * 定义一个计算属性，处理 prop 的值并返回
+             * prop：size
+             */
+            normalizedSize: function(){
+                return this.size.trim().toLowerCase();
+            },
+            arrayTest2: function(){
+                this.arrayTest1.push(5);
+                return this.arrayTest1;
+            }
+
+        }
+    });
+    var vm = new Vue({
+        el: "#vm",
+        data: {
+            dynamicProp: '动态prop',
+            size: '1',
+            todo: {
+                text: 'Learn Vue',
+                isComplete: false
+            },
+            arrayTest: [1,2,3]
+        }
+    })
+</script>
 </body>
 </html>

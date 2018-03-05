@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prop验证</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+<div id="vm">
+    <child :prop-a="a" :prop-c="b"></child>
+</div>
+<script>
+    /**
+     * 我们可以为组件的 prop 指定验证规则。如果传入的数据不符合要求，Vue 会发出警告。这对于开发给他人使用的组件非常有用。
+     *
+     * type 可以是下面原生构造器：String, Number, Boolean, Function, Object, Array, Symbol
+     * type 也可以是一个自定义构造器函数，使用 instanceof 检测。
+     *
+     * 当 prop 验证失败，Vue 会抛出警告 (**如果使用的是开发版本**)。注意 prop 会在组件实例创建之前进行校验，
+     * 所以在 default 或 validator 函数里，诸如 data、computed 或 methods 等实例属性还无法使用。
+     */
+    var child = {
+        template: '<div>propA: {{propA}}<br>propC: {{propC}}</div>',
+        props: {
+            // 要指定验证规则，需要用对象的形式来定义 prop，而不能用字符串数组
+
+            // 基础类型检测 (`null` 指允许任何类型)
+            propA: Number,
+            // 可能是多种类型
+            propB: [String, Number],
+            // 必传且是字符串
+            propC: {
+                type: String,
+                required: true
+            },
+            // 数值且有默认值
+            propD: {
+                type: Number,
+                default: 100
+            },
+            // 数组/对象的默认值应当由一个工厂函数返回
+            propE: {
+                type: Object,
+                default: function () {
+                    return {message: 'hello'}
+                }
+            },
+            // 自定义验证函数
+            propF: {
+                validator: function (value) {
+                    return value > 10
+                }
+            }
+        },
+        data: function () {
+            return {}
+        }
+    };
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+            a: 123,
+            b: '456b'
+        },
+        components: {
+            'child': child
+        }
+    })
+
+</script>
+</body>
+</html>
