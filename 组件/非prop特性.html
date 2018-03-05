@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非prop特性</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+<div id="vm">
+    <bs-date-input data-3d-date-picker="true" class="abc-test" style="width:100%;"></bs-date-input>
+</div>
+<script>
+    /**
+     * 非prop特性，即可以直接传入组件，而不需要定义相应的prop
+     *
+     * 尽管为组件定义明确的prop是推荐的传参方式，组件的作者却并不总能预见到组件被使用的场景。
+     * 所以，  **组件可以接收任意传入的特性**   ，这些特性都会被添加到组件的**根元素**上。
+     */
+    var child = {
+        template: '<input type="date" class="form-control" style="background: #eee;outline: 0;">',
+        props: []
+    }
+    /**
+     * 假设使用第三方组件 bs-data-input，包含一个bootstrap插件，该插件需要在input上加data-3d-date-picker这个特性。
+     * 这时可以直接把特性加到组件上(不需要事先定义prop)
+     *
+     * 添加属性 data-3d-date-picker="true" 之后，它会被自动添加到 bs-date-input 的根元素上。
+     *
+     * 对待class和style会进行合并操作
+     */
+    var vm = new Vue({
+        el: '#vm',
+        data: {},
+        components: {
+            //局部组件
+            'bsDateInput': child
+        }
+    })
+</script>
+
+</body>
+</html>

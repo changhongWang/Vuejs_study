@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义事件</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+<div id="vm">
+    <!--
+        使用v-on绑定自定义事件
+        每个 Vue 实例都实现了事件接口，即：
+        ·使用 $on(eventName) 监听事件
+        ·使用 $emit(eventName) 触发事件
+
+        Vue 的事件系统与浏览器的 EventTarget API 有所不同。
+        尽管它们的运行起来类似，但是 $on 和 $emit 并不是addEventListener 和 dispatchEvent 的别名。
+
+        另外，父组件可以在使用子组件的地方直接用 v-on 来监听子组件触发的事件。
+        不能用 $on 监听子组件释放的事件，而必须在模板里直接用 v-on 绑定，参见下面的例子。
+    -->
+</div>
+<script>
+    /**
+     * 子组件向父组件的通信，可以通过Vue的自定义事件系统。(自定义事件)
+     *
+     */
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+
+        }
+    })
+</script>
+
+</body>
+</html>
