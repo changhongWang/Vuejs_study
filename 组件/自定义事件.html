@@ -20,7 +20,7 @@
         不能用 $on 监听子组件释放的事件，而必须在模板里直接用 v-on 绑定。
     -->
     <div id="counter-event-example">
-        <p>{{total}}</p>
+        <p>{{clickTimes}}</p>
         <button-counter v-on:increment="incrementTotal"></button-counter>
         <button-counter v-on:increment="incrementTotal"></button-counter>
     </div>
@@ -31,7 +31,7 @@
      * 在本例中，子组件已经和它外部完全解耦了。它所做的只是报告自己的内部事件，因为父组件可能会关心这些事件。请注意这一点很重要。
      *
      */
-    Vue.component('clickIt', {
+    Vue.component('button-counter', {
         template: '<button @click="clickBtn">{{counter}}</button>',
         data: function(){
             return {
@@ -41,7 +41,7 @@
         methods: {
             clickBtn: function(){
                 this.counter++;
-                this.$emit('click-btn');//与v-on后面一致
+                this.$emit('increment');//与v-on后面一致
             }
         }
     });
@@ -51,7 +51,7 @@
             clickTimes: 0
         },
         methods: {
-            clickBtn: function(){//与v-on:xx="____"一致
+            incrementTotal: function(){//与v-on:xx="____"一致
                 this.clickTimes++;
             }
         }
