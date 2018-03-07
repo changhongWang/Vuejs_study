@@ -24,6 +24,8 @@
         methods: {
             sync: function(){
                 console.log(this.child_prop1)
+
+                // 当子组件需要更新 foo 的值时，它需要显式地触发一个更新事件
                 this.$emit('update:prop1', this.child_prop1)
             }
         }

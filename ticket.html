@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ticket</title>
+    <style>
+        .train-trip{
+            text-align: center;
+            width: 100%;
+            border: 1px solid #999;
+        }
+    </style>
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+
+<div id="vm">
+    <table class="train-trip">
+        <thead>
+        <tr>
+            <th>车次</th>
+            <th>出发站</th>
+            <th>到达站</th>
+            <th>出发时间</th>
+            <th>到达时间</th>
+            <th>旅行时间</th>
+            <th>商务座</th>
+            <th>一等座</th>
+            <th>二等座</th>
+            <th>软卧</th>
+            <th>硬卧</th>
+            <th>硬座</th>
+            <th>无座</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="t in trip">
+            <td>{{ t.number }}</td>
+            <td>{{ t.departure }}</td>
+            <td>{{ t.destination }}</td>
+            <td>{{ t.dept_time }}</td>
+            <td>{{ t.arr_time }}</td>
+            <td>{{ t.trip_time }}</td>
+            <td>{{ t.price.ZS.price }}</td>
+            <td>{{ t.price.ZY.price }}</td>
+            <td>{{ t.price.ZE.price }}</td>
+            <td>{{ t.price.RW.price }}</td>
+            <td>{{ t.price.YW.price }}</td>
+            <td>{{ t.price.YZ.price }}</td>
+            <td v-if="t.number.substring(0,1) == 'G'">{{ t.price.ZE.price }}</td>
+            <td v-if="t.number.substring(0,1) == 'Z'">{{ t.price.YZ.price }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+            trip: {
+                t1: {
+                    number: 'G6014',
+                    departure: 'Futian',
+                    destination: 'Guangzhou South',
+                    dept_time: '17:45',
+                    arr_time: '18:26',
+                    trip_time: '00:41',
+                    price: {
+                        YZ: {
+                            price: '--'
+                        },
+                        YW: {
+                            price: '--'
+                        },
+                        RW: {
+                            price: '--'
+                        },
+                        ZE: {
+                            price: '82.0'
+                        },
+                        ZY: {
+                            price: '108.0'
+                        },
+                        ZS: {
+                            price: '130.0'
+                        }
+                    }
+                },
+                t2: {
+                    number: 'G1140',
+                    departure: 'Guangzhou South',
+                    destination: 'Wuhan',
+                    dept_time: '18:43',
+                    arr_time: '23:01',
+                    trip_time: '04:18',
+                    price: {
+                        YZ: {
+                            price: '--'
+                        },
+                        YW: {
+                            price: '--'
+                        },
+                        RW: {
+                            price: '--'
+                        },
+                        ZE: {
+                            price: '463.5'
+                        },
+                        ZY: {
+                            price: '738.5'
+                        },
+                        ZS: {
+                            price: '1458.5'
+                        }
+                    }
+                },
+                t3: {
+                    number: 'Z96',
+                    departure: 'Hankou',
+                    destination: 'Beijing West',
+                    dept_time: '23:50',
+                    arr_time: '10:51',
+                    trip_time: '11:01',
+                    price: {
+                        YZ: {
+                            price: '152.5'
+                        },
+                        YW: {
+                            price: '261.5'
+                        },
+                        RW: {
+                            price: '409.5'
+                        },
+                        ZE: {
+                            price: '--'
+                        },
+                        ZY: {
+                            price: '--'
+                        },
+                        ZS: {
+                            price: '--'
+                        }
+                    }
+                }
+            }
+        }
+    })
+</script>
+
+</body>
+</html>
