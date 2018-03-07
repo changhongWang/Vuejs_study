@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sync修饰符</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+<div id="vm">
+    <!--  .sync  -->
+    <child :prop1.sync="prop_data"></child>
+    <p>父组件数据(prop_data)：{{prop_data}}</p>
+</div>
+
+<script>
+    var child = {
+        template: '<div><p><input type="text" v-model="child_prop1"><button @click="sync">同步到父组件</button></p><p>子组件数据(child_prop1):{{child_prop1}}</p><p>子组件数据(prop1):{{prop1}}</p></div>',
+        props: ['prop1'],
+        data: function () {
+            return {
+                child_prop1: this.prop1//init
+            }
+        },
+        methods: {
+            sync: function(){
+                console.log(this.child_prop1)
+                this.$emit('update:prop1', this.child_prop1)
+            }
+        }
+    }
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+            prop_data: 1
+        },
+        components: {
+            child: child
+        },
+        methods: {
+
+        }
+    })
+</script>
+</body>
+</html>

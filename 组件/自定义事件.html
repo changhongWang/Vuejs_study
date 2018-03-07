@@ -23,8 +23,12 @@
         <p>{{clickTimes}}</p>
         <button-counter v-on:increment="incrementTotal"></button-counter>
         <button-counter v-on:increment="incrementTotal"></button-counter>
+
+        <!--给组件绑定原生事件-->
+        <button-counter v-on:click.native="nativeIncrement"></button-counter>
     </div>
 </div>
+
 <script>
     /**
      * 子组件向父组件的通信，可以通过Vue的自定义事件系统。(自定义事件)
@@ -33,25 +37,29 @@
      */
     Vue.component('button-counter', {
         template: '<button @click="clickBtn">{{counter}}</button>',
-        data: function(){
+        data: function () {
             return {
                 counter: 0
             }
         },
         methods: {
-            clickBtn: function(){
+            clickBtn: function () {
                 this.counter++;
                 this.$emit('increment');//与v-on后面一致
             }
         }
     });
+
     var vm = new Vue({
         el: '#vm',
         data: {
             clickTimes: 0
         },
         methods: {
-            incrementTotal: function(){//与v-on:xx="____"一致
+            incrementTotal: function () {//与v-on:xx="____"一致
+                this.clickTimes++;
+            },
+            nativeIncrement: function () {
                 this.clickTimes++;
             }
         }
