@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用插槽分发内容</title>
+    <script src="../lib/vue.js"></script>
+</head>
+<body>
+<div id="vm">
+
+</div>
+<script>
+    /**
+     * 为了让组件可以组合，我们需要一种方式来混合父组件的内容与子组件自己的模板。
+     * 这个过程被称为内容分发 (即 Angular 用户熟知的“transclusion”)。
+     * Vue.js 实现了一个内容分发 API，参照了当前 Web Components 规范草案，使用特殊的 <slot> 元素作为原始内容的插槽。
+     *
+     * 组件作用域简单地说是：父组件模板的内容在父组件作用域内编译；子组件模板的内容在子组件作用域内编译。
+     */
+    var vm = new Vue({
+        el: '#vm',
+        data: {
+
+        }
+    })
+</script>
+</body>
+</html>
